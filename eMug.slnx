@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="emug.client/emug.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="eMug.Server/eMug.Server.csproj" />
+</Solution>
