@@ -6,6 +6,15 @@
 dotnet run --launch-profile https
 ```
 
+### Creearea bazei de date
+```bash
+dotnet ef database update
+```
+
+### Daca ef nu e instalat
+```bash
+dotnet tool install --global dotnet-ef
+```
 
 # JWT 
 
