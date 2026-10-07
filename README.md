@@ -45,3 +45,7 @@ dotnet user-secrets set "Admin:Email" "AICI-PUI-EMAIL"
 dotnet user-secrets set "Admin:Password" "AICI-PUI-PAROLA"
 dotnet user-secrets list
 ```
+
+# Teste Postman
+
+fisierele *`eMug.postman_collection`* & *`eMug.reset-seed.postman_collection`* trebuie modificate Email si Parola pentru admin 
