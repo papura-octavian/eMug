@@ -49,3 +49,43 @@ dotnet user-secrets list
 # Teste Postman
 
 fisierele *`eMug.postman_collection`* & *`eMug.reset-seed.postman_collection`* trebuie modificate Email si Parola pentru admin 
+
+# Pachete NuGet necesare
+* `Microsoft.EntityFrameworkCore.SqlServer`
+* `Microsoft.EntityFrameworkCore.Tools`
+* `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
+* `Microsoft.AspNetCore.Authentication.JwtBearer`
+
+
+# Frontend (React)
+Pentru instalarea dependențelor frontend, navigați în directorul proiectului de React (`emug.client`) și rulați:
+```bash
+npm install
+```
+Pachete principale utilizate:
+```bash
+npm install react-router-dom axios @tanstack/react-query
+```
+
+### Eroare la rularea scripturilor `npm` în PowerShell
+
+```powershell
+   Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+
+# 2. Configurare Baza de Date & Migrari
+
+Pentru a configura baza de date folosind Entity Framework Core, urmeaza una dintre cele doua metode de mai jos:
+
+### Optiunea A: Package Manager Console (Visual Studio)
+
+1. Deschide consola in Visual Studio:
+   `Tools` ➔ `NuGet Package Manager` ➔ `Package Manager Console`
+2. Asigura-te ca in dropdown-ul **Default project** este selectat `eMug.Server`.
+3. Ruleaza urmatoarele comenzi pe rand:
+
+```powershell
+Add-Migration Initial
+Update-Database
+```
