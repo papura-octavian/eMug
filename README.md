@@ -83,7 +83,7 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
 
 
-# 2. Configurare Baza de Date & Migrari
+# Configurare Baza de Date & Migrari
 
 Pentru a configura baza de date folosind Entity Framework Core, urmeaza una dintre cele doua metode de mai jos:
 
