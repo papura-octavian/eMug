@@ -85,10 +85,6 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
 # Configurare Baza de Date & Migrari
 
-Pentru a configura baza de date folosind Entity Framework Core, urmeaza una dintre cele doua metode de mai jos:
-
-### Optiunea A: Package Manager Console (Visual Studio)
-
 1. Deschide consola in Visual Studio:
    `Tools` ➔ `NuGet Package Manager` ➔ `Package Manager Console`
 2. Asigura-te ca in dropdown-ul **Default project** este selectat `eMug.Server`.
