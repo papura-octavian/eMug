@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -7,6 +7,7 @@
     <SpaRoot>..\emug.client</SpaRoot>
     <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:59982</SpaProxyServerUrl>
+    <UserSecretsId>5469c67a-fcb8-4e86-acd7-da8ca55f1ec0</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
