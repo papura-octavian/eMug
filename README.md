@@ -1,3 +1,12 @@
+# Comenzi de start
+
+### Run la Backend pe HTTPS
+
+```bash
+dotnet run --launch-profile https
+```
+
+
 # JWT 
 
 Cheia JWT se afla in user secrets, deci pentru fiecare clonare pe un alt dispozitiv este nevoie de o cheie noua.
