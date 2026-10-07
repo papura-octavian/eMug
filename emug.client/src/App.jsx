@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminProductsPage from "./pages/AdminProductsPage";
 import ProductFormPage from "./pages/ProductFormPage";
+import ProductDetailPage from "./pages/ProductDetailPage";
 
 function App() {
     return (
@@ -38,7 +39,7 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
-
+                <Route path="/products/:id" element={<ProductDetailPage />} />
             </Routes>
         </div>
     );
