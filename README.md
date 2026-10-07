@@ -70,7 +70,7 @@ npm install react-router-dom axios @tanstack/react-query
 ### Eroare la rularea scripturilor `npm` în PowerShell
 
 ```powershell
-   Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
 
 
