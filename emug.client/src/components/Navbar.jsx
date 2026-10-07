@@ -13,8 +13,9 @@ function Navbar() {
     return (
         <nav>
             <strong>eMug</strong>
-            <Link to="/">Acasă</Link>
+            <Link to="/">Home</Link>
             <Link to="/products">Produse</Link>
+            {isAdmin && <Link to="/admin/products">Admin</Link>}
 
             {user ? (
                 <>
