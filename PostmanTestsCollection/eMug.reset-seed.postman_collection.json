@@ -185,7 +185,7 @@
               "  bulky: [dels[\"Curier\"], dels[\"Curier express\"]],",
               "};",
               "",
-              "// [nume, descriere, specificatii, pret, stoc, categorie, furnizor, livrare]",
+              "// [nume, descriere, specificatii, pret, stoc, categorie, furnizor, livrare, imagine (optional)]",
               "const products = [",
               "  // Periferice",
               "  [\"Casti Bluetooth X\", \"Casti wireless cu microfon\", \"Bluetooth 5.3, 30h baterie, 250g\", 199.99, 25, \"Casti\", \"Logitech\", \"all\"],",
@@ -199,6 +199,7 @@
               "  // Componente PC",
               "  [\"Intel Core i5-13400F\", \"Procesor desktop cu 10 nuclee, fara grafica integrata\", \"LGA1700, 10 nuclee (6P+4E), 16 thread-uri, pana la 4.6 GHz\", 899, 14, \"Procesoare\", \"Intel\", \"all\"],",
               "  [\"AMD Ryzen 5 7600\", \"Procesor desktop cu 6 nuclee si grafica integrata\", \"AM5, 6 nuclee, 12 thread-uri, pana la 5.1 GHz, 65W\", 999, 11, \"Procesoare\", \"AMD\", \"all\"],",
+              "  [\"FryZen 9\", \"Procesor desktop de top cu 12 nuclee pentru gaming si productivitate\", \"AM5, 12 nuclee, 24 thread-uri, pana la 5.6 GHz, 120W\", 1999.9, 12, \"Procesoare\", \"AMD\", \"all\", \"/images/fryzen_9_9900x.jpg\"],",
               "  [\"ASUS Dual GeForce RTX 4060 8GB\", \"Placa video pentru gaming la 1080p\", \"8GB GDDR6, PCIe 4.0, 3 x DisplayPort, 1 x HDMI\", 1599, 9, \"Placi video\", \"ASUS\", \"all\"],",
               "  [\"MSI Radeon RX 7600 Mech 2X 8GB\", \"Placa video cu doua ventilatoare\", \"8GB GDDR6, PCIe 4.0, 3 x DisplayPort, 1 x HDMI\", 1299, 6, \"Placi video\", \"MSI\", \"all\"],",
               "  [\"ASUS Prime B760M-A\", \"Placa de baza micro-ATX pentru procesoare Intel\", \"Socket LGA1700, chipset B760, micro-ATX, 2 sloturi M.2\", 549, 10, \"Placi de baza\", \"ASUS\", \"all\"],",
@@ -215,9 +216,9 @@
               "  [\"Cooler Master Hyper 212 Black\", \"Cooler de procesor accesibil\", \"Cooler cu aer, ventilator 120 mm, compatibil Intel si AMD\", 139, 30, \"Coolere\", \"Cooler Master\", \"all\"],",
               "];",
               "",
-              "for (const [name, description, specifications, price, stock, cat, sup, delivery] of products) {",
+              "for (const [name, description, specifications, price, stock, cat, sup, delivery, image] of products) {",
               "  await create(\"/api/products\", {",
-              "    name, description, specifications, price, stock, imageUrl: null,",
+              "    name, description, specifications, price, stock, imageUrl: image ?? null,",
               "    categoryId: cats[cat], supplierId: sups[sup], deliveryMethodIds: deliveryFor[delivery]",
               "  });",
               "}"
@@ -250,7 +251,7 @@
             "exec": [
               "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
               "const list = pm.response.json();",
-              "pm.test(\"Exista 23 produse\", () => pm.expect(list).to.have.lengthOf(23));"
+              "pm.test(\"Exista 24 produse\", () => pm.expect(list).to.have.lengthOf(24));"
             ]
           }
         }
