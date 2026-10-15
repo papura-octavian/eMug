@@ -15,7 +15,7 @@ function CategoryList() {
     if (error) return <p>{error}</p>;
 
     return (
-        <ul>
+        <ul className="chips">
             {categories.map((c) => (
                 <li key={c.id}>{c.name}</li>
             ))}

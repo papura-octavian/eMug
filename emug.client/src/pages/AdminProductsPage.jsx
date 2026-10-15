@@ -28,7 +28,7 @@ function AdminProductsPage() {
         <div>
             <h1>Administrare produse</h1>
             {error && <p>{error}</p>}
-            <Link to="/admin/products/new">Adauga produs</Link>
+            <Link to="/admin/products/new" className="btn">Adauga produs</Link>
 
             <table>
                 <thead>
@@ -51,7 +51,7 @@ function AdminProductsPage() {
                             <td>{p.stock}</td>
                             <td>
                                 <Link to={`/admin/products/${p.id}/edit`}>Editeaza</Link>
-                                <button onClick={() => handleDelete(p.id, p.name)}>Sterge</button>
+                                <button className="danger" onClick={() => handleDelete(p.id, p.name)}>Sterge</button>
                             </td>
                         </tr>
                     ))}

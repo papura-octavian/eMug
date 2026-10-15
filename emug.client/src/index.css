@@ -1,111 +1,483 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Public+Sans:wght@400..700&display=swap");
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+    --paper: #f2f4f7;
+    --surface: #ffffff;
+    --ink: #14213d;
+    --muted: #5b6577;
+    --cobalt: #1f4fd8;
+    --sticker: #ffd60a;
+    --red: #d7263d;
+    --green: #1b7f4b;
+    --line: #d5dae3;
+    --display: "Bricolage Grotesque", "Segoe UI", sans-serif;
+    --body: "Public Sans", "Segoe UI", sans-serif;
+    color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+    margin: 0;
+    font-family: var(--body);
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.5;
 }
 
 h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+h2,
+h3 {
+    font-family: var(--display);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    margin: 0 0 1rem;
 }
+
 h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+    font-size: 1.4rem;
+    margin: 2rem 0 0.75rem;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+a {
+    color: var(--cobalt);
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+:focus-visible {
+    outline: 3px solid var(--cobalt);
+    outline-offset: 2px;
+}
+
+/* ---------- bara de sus ---------- */
+
+.site-header {
+    background: var(--ink);
+    color: #fff;
+}
+
+    .site-header :focus-visible {
+        outline-color: var(--sticker);
+    }
+
+.nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logo {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    background: var(--sticker);
+    padding: 0 0.65rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transform: rotate(-2deg);
+}
+
+.nav-links {
+    display: flex;
+    gap: 0.25rem;
+}
+
+    .nav-links a {
+        color: #c9d3ea;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 0.75rem;
+        border-radius: 4px;
+    }
+
+        .nav-links a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-links a.active {
+            color: #fff;
+            box-shadow: inset 0 -3px 0 var(--sticker);
+        }
+
+.nav-user {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: #c9d3ea;
+}
+
+    .nav-user a {
+        color: #c9d3ea;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+        .nav-user a:hover {
+            color: #fff;
+        }
+
+    .nav-user button {
+        background: transparent;
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.35);
+    }
+
+        .nav-user button:hover {
+            border-color: var(--sticker);
+            color: var(--sticker);
+        }
+
+.badge {
+    background: var(--sticker);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 1px 8px;
+    border-radius: 999px;
+}
+
+/* ---------- pagina ---------- */
+
+.page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+}
+
+.hero {
+    max-width: 640px;
+    padding: 1.5rem 0 1rem;
+}
+
+    .hero p {
+        color: var(--muted);
+        font-size: 1.1rem;
+        margin: 0 0 1.25rem;
+    }
+
+.chips {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+    .chips li {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 0.3rem 0.9rem;
+        font-weight: 500;
+    }
+
+/* ---------- butoane ---------- */
+
+button,
+.btn {
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--ink);
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+    button:hover,
+    .btn:hover {
+        border-color: var(--cobalt);
+    }
+
+    button[type="submit"],
+    .btn {
+        background: var(--cobalt);
+        border-color: var(--cobalt);
+        color: #fff;
+    }
+
+        button[type="submit"]:hover,
+        .btn:hover {
+            background: #1a43b8;
+        }
+
+.danger {
+    color: var(--red);
+    border-color: #f0b8bf;
+}
+
+    .danger:hover {
+        background: var(--red);
+        border-color: var(--red);
+        color: #fff;
+    }
+
+/* ---------- formulare ---------- */
+
+input,
+select,
+textarea {
+    font: inherit;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.55rem 0.7rem;
+}
+
+form {
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+    form input:not([type="checkbox"]),
+    form select,
+    form textarea {
+        width: 100%;
+    }
+
+    form textarea {
+        min-height: 90px;
+        resize: vertical;
+    }
+
+    form label {
+        display: block;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+    }
+
+        form label:has(input[type="checkbox"]) {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 400;
+            font-size: 1rem;
+        }
+
+    form button {
+        align-self: flex-start;
+    }
+
+/* ---------- lista de produse ---------- */
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 0 0 1.5rem;
+}
+
+    .filters input {
+        flex: 1;
+        min-width: 200px;
+        max-width: 360px;
+    }
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 1.25rem;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: inherit;
+    text-decoration: none;
+    overflow: hidden;
+    transition: border-color 0.15s;
+}
+
+    .product-card:hover {
+        border-color: var(--cobalt);
+    }
+
+.product-img {
+    aspect-ratio: 4 / 3;
+    display: grid;
+    place-items: center;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+    .product-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 0.75rem;
+    }
+
+.product-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.9rem 1rem 1rem;
+    flex: 1;
+}
+
+.product-category {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+.product-card h3 {
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+.product-bottom {
+    margin-top: auto;
+    padding-top: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.price {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.15rem;
+    background: var(--sticker);
+    color: var(--ink);
+    padding: 0.1rem 0.6rem;
+    border-radius: 3px;
+    font-variant-numeric: tabular-nums;
+}
+
+.stock {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--green);
+}
+
+    .stock.out {
+        color: var(--red);
+    }
+
+/* ---------- tabel admin ---------- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    margin-top: 1rem;
+}
+
+th {
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    background: #f7f8fb;
+}
+
+th,
+td {
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid var(--line);
+}
+
+tr:last-child td {
+    border-bottom: 0;
+}
+
+td:last-child {
+    white-space: nowrap;
+}
+
+td button {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.85rem;
+    margin-left: 0.5rem;
+}
+
+.section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+    .section-head h2 {
+        margin: 0 0 0.75rem;
+    }
+
+.perks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.perk h3 {
+    font-size: 1rem;
+    margin: 0 0 0.25rem;
+}
+
+.perk p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+/* ---------- ecrane mici ---------- */
+
+@media (max-width: 640px) {
+    .nav {
+        height: auto;
+        flex-wrap: wrap;
+        gap: 0.5rem 1rem;
+        padding-top: 0.6rem;
+        padding-bottom: 0.6rem;
+    }
+
+    .nav-user {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .page {
+        padding-top: 1.25rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
 }

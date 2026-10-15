@@ -13,34 +13,36 @@ function App() {
     return (
         <div>
             <Navbar />
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/products" element={<ProductsPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/admin/products" element={
-                    <ProtectedRoute adminOnly>
-                        <AdminProductsPage />
-                    </ProtectedRoute> 
-                } />
-                <Route
-                    path="/admin/products/new"
-                    element={
+            <main className="page">
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/products" element={<ProductsPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/admin/products" element={
                         <ProtectedRoute adminOnly>
-                            <ProductFormPage />
-                        </ProtectedRoute>
-                    }
-                />
-                <Route
-                    path="/admin/products/:id/edit"
-                    element={
-                        <ProtectedRoute adminOnly>
-                            <ProductFormPage />
-                        </ProtectedRoute>
-                    }
-                />
-                <Route path="/products/:id" element={<ProductDetailPage />} />
-            </Routes>
+                            <AdminProductsPage />
+                        </ProtectedRoute> 
+                    } />
+                    <Route
+                        path="/admin/products/new"
+                        element={
+                            <ProtectedRoute adminOnly>
+                                <ProductFormPage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/admin/products/:id/edit"
+                        element={
+                            <ProtectedRoute adminOnly>
+                                <ProductFormPage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route path="/products/:id" element={<ProductDetailPage />} />
+                </Routes>
+            </main>
         </div>
     );
 }

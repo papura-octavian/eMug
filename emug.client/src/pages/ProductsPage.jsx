@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api/axios";
-import { Link } from "react-router-dom";
+import ProductCard from "../components/ProductCard";
 
 function ProductsPage() {
     const [products, setProducts] = useState([]);
@@ -68,13 +68,7 @@ function ProductsPage() {
 
             <div className="product-grid">
                 {products.map((p) => (
-                    <div className="product-card" key={p.id}>
-                        {p.imageUrl && <img src={p.imageUrl} alt={p.name} width="150" />}
-                        <h3><Link to={`/products/${p.id}`}>{p.name}</Link></h3>
-                        <p>{p.category?.name}</p>
-                        <p>{p.price.toFixed(2)} lei</p>
-                        <p>{p.stock > 0 ? `In stoc: ${p.stock}` : "Stoc epuizat"}</p>
-                    </div>
+                    <ProductCard key={p.id} product={p} />
                 ))}
             </div>
         </div>
