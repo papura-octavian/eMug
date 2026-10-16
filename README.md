@@ -1,94 +1,88 @@
-# Comenzi de start
+# Getting Started Commands
 
-### Run la Backend pe HTTPS
+### Run Backend with HTTPS
 
 ```bash
 dotnet run --launch-profile https
 ```
 
-### Creearea bazei de date
+### Create/Update the Database
 ```bash
 dotnet ef database update
 ```
 
-### Daca ef nu e instalat
+### If `dotnet-ef` is not installed
 ```bash
 dotnet tool install --global dotnet-ef
 ```
 
-# JWT 
+# JWT Setup
 
-Cheia JWT se afla in user secrets, deci pentru fiecare clonare pe un alt dispozitiv este nevoie de o cheie noua.
+The JWT Key is stored in User Secrets, so a new key must be configured whenever the project is cloned onto a new device.
 
-Click dreapta pe **`eMug.Server`** -> **`Manage User Secrets`** -> si acolo se creeaza cheia de minim 32 de caractere
+Right-click on **`eMug.Server`** -> **`Manage User Secrets`** -> create a secret key with at least 32 characters:
 
 ```json
-
 "Jwt": {
- "Key": "AICI-PUI-CHEIA"
+  "Key": "YOUR-KEY-HERE"
 }
-
 ```
 
-# Admin credentials
+# Admin Credentials
 
-Parola & Email-ul adminului se afla tot in user secrets, deci pentru fiecare clonare pe un alt dispozitiv este nevoie sa setati parola si emailul.
+The admin email and password are also stored in User Secrets, so you need to set them for every fresh clone.
 
-Click dreapta pe **`eMug.Server`** -> **`Manage User Secrets`** -> si acolo se introduc Email & Parola admin
-
+Right-click on **`eMug.Server`** -> **`Manage User Secrets`** -> set the admin Email & Password:
 
 ```json
-
 "Admin": {
-  "Email": "AICI-PUI-EMAIL",
-  "Password": "AICI-PUI-PAROLA"
+  "Email": "YOUR-EMAIL-HERE",
+  "Password": "YOUR-PASSWORD-HERE"
 }
 ```
 
-# Daca user-secrets nu merge
+# If User Secrets is not initialized
 
 ```bash
 dotnet user-secrets init
-dotnet user-secrets set "Jwt:Key" "AICI-PUI-CHEIA"
-dotnet user-secrets set "Admin:Email" "AICI-PUI-EMAIL"
-dotnet user-secrets set "Admin:Password" "AICI-PUI-PAROLA"
+dotnet user-secrets set "Jwt:Key" "YOUR-KEY-HERE"
+dotnet user-secrets set "Admin:Email" "YOUR-EMAIL-HERE"
+dotnet user-secrets set "Admin:Password" "YOUR-PASSWORD-HERE"
 dotnet user-secrets list
 ```
 
-# Teste Postman
+# Postman Tests
 
-fisierele *`eMug.postman_collection`* & *`eMug.reset-seed.postman_collection`* trebuie modificate Email si Parola pentru admin 
+In the files *`eMug.postman_collection`* & *`eMug.reset-seed.postman_collection`*, update the Admin Email and Password values accordingly.
 
-# Pachete NuGet necesare
-* `Microsoft.EntityFrameworkCore.SqlServer`
-* `Microsoft.EntityFrameworkCore.Tools`
-* `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
-* `Microsoft.AspNetCore.Authentication.JwtBearer`
-
+# Required NuGet Packages
+- `Microsoft.EntityFrameworkCore.SqlServer`
+- `Microsoft.EntityFrameworkCore.Tools`
+- `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
+- `Microsoft.AspNetCore.Authentication.JwtBearer`
 
 # Frontend (React)
-Pentru instalarea dependențelor frontend, navigați în directorul proiectului de React (`emug.client`) și rulați:
+To install the frontend dependencies, navigate to the React project directory (`emug.client`) and run:
 ```bash
 npm install
 ```
-Pachete principale utilizate:
+Main packages used:
 ```bash
 npm install react-router-dom axios @tanstack/react-query
 ```
 
-### Eroare la rularea scripturilor `npm` în PowerShell
+### Script Execution Error in PowerShell (`npm`)
 
 ```powershell
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
 
+# Database Configuration & Migrations
 
-# Configurare Baza de Date & Migrari
-
-1. Deschide consola in Visual Studio:
+1. Open the Package Manager Console in Visual Studio:
    `Tools` ➔ `NuGet Package Manager` ➔ `Package Manager Console`
-2. Asigura-te ca in dropdown-ul **Default project** este selectat `eMug.Server`.
-3. Ruleaza urmatoarele comenzi pe rand:
+2. Ensure `eMug.Server` is selected in the **Default project** dropdown.
+3. Run the following commands:
 
 ```powershell
 Add-Migration Initial
