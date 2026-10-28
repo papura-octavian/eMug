@@ -1,8 +1,10 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 
 function Navbar() {
     const { user, isAdmin, logout } = useAuth();
+    const { count } = useCart();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -18,10 +20,15 @@ function Navbar() {
                 <div className="nav-links">
                     <NavLink to="/" end>Home</NavLink>
                     <NavLink to="/products">Produse</NavLink>
+                    {user && <NavLink to="/wishlist">Favorite</NavLink>}
+                    {user && <NavLink to="/orders">Comenzile mele</NavLink>}
                     {isAdmin && <NavLink to="/admin/products">Admin</NavLink>}
                 </div>
 
                 <div className="nav-user">
+                    <NavLink to="/cart" className="cart-link">
+                        Cos {count > 0 && <span className="badge">{count}</span>}
+                    </NavLink>
                     {user ? (
                         <>
                             <span>{user.email}</span>

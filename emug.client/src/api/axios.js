@@ -13,4 +13,16 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
+// token expirat sau invalid: delogam utilizatorul si il trimitem la login
+api.interceptors.response.use(
+    (res) => res,
+    (err) => {
+        if (err.response?.status === 401 && err.config?.headers?.Authorization) {
+            localStorage.removeItem("user");
+            window.location.href = "/login?expired=1";
+        }
+        return Promise.reject(err);
+    }
+);
+
 export default api;

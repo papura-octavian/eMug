@@ -58,6 +58,22 @@
     {
       "key": "productId",
       "value": ""
+    },
+    {
+      "key": "orderId",
+      "value": ""
+    },
+    {
+      "key": "productStock",
+      "value": ""
+    },
+    {
+      "key": "productPrice",
+      "value": ""
+    },
+    {
+      "key": "deliveryPrice",
+      "value": ""
     }
   ],
   "item": [
@@ -183,7 +199,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"email\":\"{{userEmail}}\",\"password\":\"{{userPassword}}\",\"fullName\":\"Test User\"}",
+              "raw": "{\"email\":\"{{userEmail}}\",\"password\":\"{{userPassword}}\",\"confirmPassword\":\"{{userPassword}}\",\"fullName\":\"Test User\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -238,7 +254,100 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\"email\":\"weak{{$timestamp}}@test.com\",\"password\":\"Testtest\",\"fullName\":\"Weak\"}",
+              "raw": "{\"email\":\"weak{{$timestamp}}@test.com\",\"password\":\"Testtest\",\"confirmPassword\":\"Testtest\",\"fullName\":\"Weak\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Register - parolele nu coincid",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"mismatch{{$timestamp}}@test.com\",\"password\":\"Test.1234\",\"confirmPassword\":\"Test.1235\",\"fullName\":\"Mismatch\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"Mesaj parolele nu coincid\", () => pm.expect(pm.response.text()).to.include(\"Parolele nu coincid\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Register - fara confirmare parola",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"noconfirm{{$timestamp}}@test.com\",\"password\":\"Test.1234\",\"fullName\":\"No Confirm\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2124,7 +2233,1176 @@
       ]
     },
     {
-      "name": "6. Delete si curatenie",
+      "name": "6. Wishlist",
+      "item": [
+        {
+          "name": "GET fara token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "wishlist"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 401\", () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST fara token",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "wishlist",
+                "{{productId}}"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 401\", () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST produs inexistent",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "wishlist",
+                "999999"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST ca user",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "wishlist",
+                "{{productId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST din nou (fara duplicat)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "wishlist",
+                "{{productId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET lista ca user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "wishlist"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "const id = Number(pm.collectionVariables.get(\"productId\"));",
+                  "const found = j.filter(w => w.productId === id);",
+                  "pm.test(\"Produsul apare o singura data\", () => pm.expect(found.length).to.eql(1));",
+                  "pm.test(\"Are nume, pret si categorie\", () => {",
+                  "  pm.expect(found[0].name).to.eql(\"Casti Bluetooth X\");",
+                  "  pm.expect(found[0].price).to.be.a(\"number\");",
+                  "  pm.expect(found[0].category).to.be.a(\"string\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET lista ca admin (separata de user)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "wishlist"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const id = Number(pm.collectionVariables.get(\"productId\"));",
+                  "pm.test(\"Adminul nu vede favoritele userului\", () => pm.expect(pm.response.json().map(w => w.productId)).to.not.include(id));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE ca user",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "wishlist",
+                "{{productId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE din nou",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "wishlist",
+                "{{productId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET dupa DELETE",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "wishlist"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const id = Number(pm.collectionVariables.get(\"productId\"));",
+                  "pm.test(\"Produsul nu mai e in lista\", () => pm.expect(pm.response.json().map(w => w.productId)).to.not.include(id));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST din nou (ramane pentru stergere produs)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "wishlist",
+                "{{productId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "7. Comenzi",
+      "item": [
+        {
+          "name": "POST fara token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\":[{\"productId\":{{productId}},\"quantity\":2}],\"deliveryMethodId\":{{deliveryMethodId}},\"fullName\":\"Ion Popescu\",\"phone\":\"0722123456\",\"address\":\"Str. Exemplu 1, bl. A, ap. 2\",\"city\":\"Iasi\",\"county\":\"Iasi\",\"postalCode\":\"700000\",\"paymentMethod\":\"Ramburs\",\"notes\":\"Sunati inainte\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 401\", () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET istoric fara token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/my",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "my"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 401\", () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST cos gol",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\":[],\"deliveryMethodId\":{{deliveryMethodId}},\"fullName\":\"Ion Popescu\",\"phone\":\"0722123456\",\"address\":\"Str. Exemplu 1, bl. A, ap. 2\",\"city\":\"Iasi\",\"county\":\"Iasi\",\"postalCode\":\"700000\",\"paymentMethod\":\"Ramburs\",\"notes\":\"Sunati inainte\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"Mesaj cos gol\", () => pm.expect(pm.response.text()).to.include(\"Cosul este gol\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST cantitate invalida",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\":[{\"productId\":{{productId}},\"quantity\":0}],\"deliveryMethodId\":{{deliveryMethodId}},\"fullName\":\"Ion Popescu\",\"phone\":\"0722123456\",\"address\":\"Str. Exemplu 1, bl. A, ap. 2\",\"city\":\"Iasi\",\"county\":\"Iasi\",\"postalCode\":\"700000\",\"paymentMethod\":\"Ramburs\",\"notes\":\"Sunati inainte\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST date de livrare lipsa",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\":[{\"productId\":{{productId}},\"quantity\":2}],\"deliveryMethodId\":{{deliveryMethodId}},\"fullName\":\"\",\"phone\":\"\",\"address\":\"Str. Exemplu 1, bl. A, ap. 2\",\"city\":\"Iasi\",\"county\":\"Iasi\",\"postalCode\":\"700000\",\"paymentMethod\":\"Ramburs\",\"notes\":\"Sunati inainte\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"Mesaj date lipsa\", () => pm.expect(pm.response.text()).to.include(\"datele de livrare\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST metoda de plata invalida",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\":[{\"productId\":{{productId}},\"quantity\":2}],\"deliveryMethodId\":{{deliveryMethodId}},\"fullName\":\"Ion Popescu\",\"phone\":\"0722123456\",\"address\":\"Str. Exemplu 1, bl. A, ap. 2\",\"city\":\"Iasi\",\"county\":\"Iasi\",\"postalCode\":\"700000\",\"paymentMethod\":\"Bitcoin\",\"notes\":\"Sunati inainte\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST produs inexistent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\":[{\"productId\":999999,\"quantity\":1}],\"deliveryMethodId\":{{deliveryMethodId}},\"fullName\":\"Ion Popescu\",\"phone\":\"0722123456\",\"address\":\"Str. Exemplu 1, bl. A, ap. 2\",\"city\":\"Iasi\",\"county\":\"Iasi\",\"postalCode\":\"700000\",\"paymentMethod\":\"Ramburs\",\"notes\":\"Sunati inainte\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST livrare inexistenta",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\":[{\"productId\":{{productId}},\"quantity\":2}],\"deliveryMethodId\":999999,\"fullName\":\"Ion Popescu\",\"phone\":\"0722123456\",\"address\":\"Str. Exemplu 1, bl. A, ap. 2\",\"city\":\"Iasi\",\"county\":\"Iasi\",\"postalCode\":\"700000\",\"paymentMethod\":\"Ramburs\",\"notes\":\"Sunati inainte\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST stoc insuficient",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\":[{\"productId\":{{productId}},\"quantity\":100000}],\"deliveryMethodId\":{{deliveryMethodId}},\"fullName\":\"Ion Popescu\",\"phone\":\"0722123456\",\"address\":\"Str. Exemplu 1, bl. A, ap. 2\",\"city\":\"Iasi\",\"county\":\"Iasi\",\"postalCode\":\"700000\",\"paymentMethod\":\"Ramburs\",\"notes\":\"Sunati inainte\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"Mesaj stoc insuficient\", () => pm.expect(pm.response.text()).to.include(\"Stoc insuficient\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST ca user",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\":[{\"productId\":{{productId}},\"quantity\":2}],\"deliveryMethodId\":{{deliveryMethodId}},\"fullName\":\"Ion Popescu\",\"phone\":\"0722123456\",\"address\":\"Str. Exemplu 1, bl. A, ap. 2\",\"city\":\"Iasi\",\"county\":\"Iasi\",\"postalCode\":\"700000\",\"paymentMethod\":\"Ramburs\",\"notes\":\"Sunati inainte\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// pretul si stocul produsului inainte de comanda, pentru verificari",
+                  "const base = pm.collectionVariables.get(\"baseUrl\");",
+                  "pm.sendRequest(base + \"/api/products/\" + pm.collectionVariables.get(\"productId\"), (err, res) => {",
+                  "  const p = res.json();",
+                  "  pm.collectionVariables.set(\"productStock\", p.stock);",
+                  "  pm.collectionVariables.set(\"productPrice\", p.price);",
+                  "  const d = p.deliveryMethods.find(x => x.id === Number(pm.collectionVariables.get(\"deliveryMethodId\")));",
+                  "  pm.collectionVariables.set(\"deliveryPrice\", d ? d.price : 0);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "const j = pm.response.json();",
+                  "const price = Number(pm.collectionVariables.get(\"productPrice\"));",
+                  "const delivery = Number(pm.collectionVariables.get(\"deliveryPrice\"));",
+                  "pm.test(\"Are id\", () => pm.expect(j.id).to.be.above(0));",
+                  "pm.test(\"Status Plasata\", () => pm.expect(j.status).to.eql(\"Plasata\"));",
+                  "pm.test(\"Un produs, cantitate 2\", () => {",
+                  "  pm.expect(j.items.length).to.eql(1);",
+                  "  pm.expect(j.items[0].quantity).to.eql(2);",
+                  "});",
+                  "pm.test(\"Subtotal = pret x cantitate\", () => pm.expect(j.subtotal).to.be.closeTo(price * 2, 0.001));",
+                  "pm.test(\"Total = subtotal + livrare\", () => pm.expect(j.total).to.be.closeTo(price * 2 + delivery, 0.001));",
+                  "pm.test(\"Datele de livrare salvate\", () => pm.expect(j.city).to.eql(\"Iasi\"));",
+                  "pm.test(\"Are header Location\", () => pm.response.to.have.header(\"Location\"));",
+                  "pm.collectionVariables.set(\"orderId\", j.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET produs dupa comanda (stoc scazut)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{productId}}"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const before = Number(pm.collectionVariables.get(\"productStock\"));",
+                  "pm.test(\"Stocul a scazut cu 2\", () => pm.expect(pm.response.json().stock).to.eql(before - 2));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET istoric ca user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/my",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "my"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "const id = Number(pm.collectionVariables.get(\"orderId\"));",
+                  "pm.test(\"Comanda apare in istoric\", () => pm.expect(j.map(o => o.id)).to.include(id));",
+                  "pm.test(\"Cea mai noua e prima\", () => pm.expect(j[0].id).to.eql(id));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET istoric ca admin (separat de user)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/my",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "my"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const id = Number(pm.collectionVariables.get(\"orderId\"));",
+                  "pm.test(\"Adminul nu are comanda userului in istoricul lui\", () => pm.expect(pm.response.json().map(o => o.id)).to.not.include(id));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET dupa id ca user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"Id corect\", () => pm.expect(j.id).to.eql(Number(pm.collectionVariables.get(\"orderId\"))));",
+                  "pm.test(\"Nume produs salvat\", () => pm.expect(j.items[0].productName).to.eql(\"Casti Bluetooth X\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET dupa id ca admin",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET id inexistent",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "999999"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "8. Delete si curatenie",
       "item": [
         {
           "name": "DELETE furnizor cu produse (refuzat)",
@@ -2317,6 +3595,88 @@
           ]
         },
         {
+          "name": "GET comanda dupa stergere produs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const it = pm.response.json().items[0];",
+                  "pm.test(\"Produsul nu mai e legat\", () => pm.expect(it.productId).to.eql(null));",
+                  "pm.test(\"Numele produsului ramane in istoric\", () => pm.expect(it.productName).to.eql(\"Casti Bluetooth X\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET wishlist dupa stergere produs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "wishlist"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const id = Number(pm.collectionVariables.get(\"productId\"));",
+                  "pm.test(\"Produsul sters a disparut din favorite\", () => pm.expect(pm.response.json().map(w => w.productId)).to.not.include(id));"
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "DELETE furnizor ca admin",
           "request": {
             "method": "DELETE",
@@ -2488,6 +3848,46 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"Status 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET comanda dupa stergere livrare",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Livrarea ramane in istoric\", () => pm.expect(pm.response.json().deliveryName).to.be.a(\"string\").and.not.empty);"
                 ]
               }
             }

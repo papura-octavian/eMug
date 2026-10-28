@@ -8,6 +8,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminProductsPage from "./pages/AdminProductsPage";
 import ProductFormPage from "./pages/ProductFormPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import WishlistPage from "./pages/WishlistPage";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import OrdersPage from "./pages/OrdersPage";
+import OrderDetailPage from "./pages/OrderDetailPage";
 
 function App() {
     return (
@@ -41,6 +46,39 @@ function App() {
                         }
                     />
                     <Route path="/products/:id" element={<ProductDetailPage />} />
+                    <Route path="/cart" element={<CartPage />} />
+                    <Route
+                        path="/checkout"
+                        element={
+                            <ProtectedRoute>
+                                <CheckoutPage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/wishlist"
+                        element={
+                            <ProtectedRoute>
+                                <WishlistPage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/orders"
+                        element={
+                            <ProtectedRoute>
+                                <OrdersPage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/orders/:id"
+                        element={
+                            <ProtectedRoute>
+                                <OrderDetailPage />
+                            </ProtectedRoute>
+                        }
+                    />
                 </Routes>
             </main>
         </div>

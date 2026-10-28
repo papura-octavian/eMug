@@ -455,6 +455,224 @@ td button {
     font-size: 0.95rem;
 }
 
+/* ---------- favorite ---------- */
+
+.product-img {
+    position: relative;
+}
+
+.fav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--red);
+    line-height: 1;
+}
+
+    .fav-btn span:first-child {
+        font-size: 1.2rem;
+    }
+
+    .fav-btn.active {
+        border-color: #f0b8bf;
+        background: #fdf0f2;
+    }
+
+.product-img .fav-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 1;
+    padding: 0.3rem 0.5rem;
+}
+
+/* ---------- cos, favorite, comenzi ---------- */
+
+.buy-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1rem 0;
+}
+
+    .buy-box label {
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+input.qty {
+    width: 5rem;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.notice {
+    background: #e8f5ee;
+    border: 1px solid #b7dcc7;
+    color: var(--green);
+    border-radius: 6px;
+    padding: 0.6rem 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.error {
+    color: var(--red);
+}
+
+.line-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+}
+
+.line-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--line);
+}
+
+    .line-item:last-child {
+        border-bottom: 0;
+    }
+
+.line-img {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #fff;
+}
+
+    .line-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 4px;
+    }
+
+.line-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+    .line-info a {
+        font-weight: 600;
+        color: var(--ink);
+    }
+
+.line-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+    .line-actions button {
+        padding: 0.35rem 0.75rem;
+        font-size: 0.85rem;
+    }
+
+.summary {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin-top: 1rem;
+}
+
+    .summary h2 {
+        margin-top: 0;
+    }
+
+    .summary ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1rem;
+    }
+
+    .summary li {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.3rem 0;
+        border-bottom: 1px dashed var(--line);
+    }
+
+    .summary p {
+        margin: 0.35rem 0;
+    }
+
+.checkout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 2rem;
+    align-items: start;
+}
+
+    .checkout h2 {
+        margin: 0.5rem 0 0;
+    }
+
+    .checkout .summary {
+        position: sticky;
+        top: 1rem;
+        margin-top: 0;
+    }
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+form label.choice {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 400;
+    font-size: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+    margin: 0;
+    cursor: pointer;
+}
+
+    form label.choice:has(input:checked) {
+        border-color: var(--cobalt);
+        box-shadow: inset 3px 0 0 var(--cobalt);
+    }
+
+.order-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+    .order-info h3 {
+        margin-bottom: 0.5rem;
+    }
+
+    .order-info p {
+        margin: 0 0 0.5rem;
+    }
+
 /* ---------- ecrane mici ---------- */
 
 @media (max-width: 640px) {
@@ -473,6 +691,20 @@ td button {
 
     .page {
         padding-top: 1.25rem;
+    }
+
+    .checkout,
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .line-item {
+        flex-wrap: wrap;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
     }
 }
 

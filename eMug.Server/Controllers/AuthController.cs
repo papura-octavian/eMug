@@ -25,6 +25,9 @@ namespace eMug.Server.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
+            if (dto.Password != dto.ConfirmPassword)
+                return BadRequest(new[] { "Parolele nu coincid." });
+
             var user = new ApplicationUser
             {
                 UserName = dto.Email,

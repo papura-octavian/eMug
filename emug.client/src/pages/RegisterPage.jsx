@@ -8,13 +8,20 @@ function RegisterPage() {
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState(null);
+
+    const mismatch = confirmPassword !== "" && password !== confirmPassword;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
+        if (password !== confirmPassword) {
+            setError("Parolele nu coincid.");
+            return;
+        }
         try {
-            await register(email, password, fullName);
+            await register(email, password, confirmPassword, fullName);
             navigate("/login");
         } catch (err) {
             const data = err.response?.data;
@@ -42,10 +49,24 @@ function RegisterPage() {
                 placeholder="Parolă"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="new-password"
                 required
             />
-            <button type="submit">Înregistrează-te</button>
-            {error && <p>{error}</p>}
+            <input
+                type="password"
+                placeholder="Confirmă parola"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                autoComplete="new-password"
+                aria-invalid={mismatch}
+                aria-describedby={mismatch ? "password-mismatch" : undefined}
+                required
+            />
+            {mismatch && (
+                <p id="password-mismatch" className="error">Parolele nu coincid.</p>
+            )}
+            <button type="submit" disabled={mismatch}>Înregistrează-te</button>
+            {error && <p className="error">{error}</p>}
         </form>
     );
 }

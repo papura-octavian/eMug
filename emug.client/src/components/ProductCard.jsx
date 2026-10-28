@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import FavoriteButton from "./FavoriteButton";
 
 function ProductCard({ product }) {
     return (
         <Link to={`/products/${product.id}`} className="product-card">
             <div className="product-img">
+                <FavoriteButton productId={product.id} />
                 {product.imageUrl ? (
                     <img src={product.imageUrl} alt={product.name} />
                 ) : (
