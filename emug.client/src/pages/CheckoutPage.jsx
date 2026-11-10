@@ -3,6 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import { useCart } from "../context/CartContext";
 
+const paymentMethods = [
+    { value: "Ramburs", label: "Ramburs (numerar la livrare)" },
+    { value: "Card", label: "Card online (plata securizata prin Stripe)" },
+];
+
 const emptyForm = {
     fullName: "",
     phone: "",
@@ -78,6 +83,18 @@ function CheckoutPage() {
         try {
             const res = await api.post("/orders", payload);
             clear();
+
+            if (form.paymentMethod === "Card") {
+                // comanda e creata; trimitem utilizatorul pe pagina de plata Stripe
+                try {
+                    const pay = await api.post(`/orders/${res.data.id}/pay`);
+                    window.location.href = pay.data.url;
+                } catch {
+                    navigate(`/orders/${res.data.id}`, { state: { payFailed: true } });
+                }
+                return;
+            }
+
             navigate(`/orders/${res.data.id}`, { state: { placed: true } });
         } catch (err) {
             const data = err.response?.data;
@@ -159,12 +176,23 @@ function CheckoutPage() {
                 ))}
 
                 <h2>Plata</h2>
-                {["Ramburs", "Card la livrare"].map((m) => (
-                    <label key={m} className="choice">
-                        <input type="radio" name="paymentMethod" value={m} checked={form.paymentMethod === m} onChange={handleChange} />
-                        {m}
+                {paymentMethods.map((m) => (
+                    <label key={m.value} className="choice">
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value={m.value}
+                            checked={form.paymentMethod === m.value}
+                            onChange={handleChange}
+                        />
+                        {m.label}
                     </label>
                 ))}
+                {form.paymentMethod === "Card" && (
+                    <p className="product-category">
+                        Dupa plasarea comenzii vei fi redirectionat catre Stripe pentru plata cu cardul.
+                    </p>
+                )}
 
                 <div>
                     <label htmlFor="notes">Observatii (optional)</label>
@@ -172,7 +200,7 @@ function CheckoutPage() {
                 </div>
 
                 <button type="submit" disabled={sending || !deliveryMethods?.length}>
-                    {sending ? "Se trimite..." : "Plaseaza comanda"}
+                    {sending ? "Se trimite..." : form.paymentMethod === "Card" ? "Plaseaza comanda si plateste" : "Plaseaza comanda"}
                 </button>
                 {error && <p className="error">{error}</p>}
             </form>

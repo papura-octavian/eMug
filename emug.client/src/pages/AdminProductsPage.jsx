@@ -33,7 +33,6 @@ function AdminProductsPage() {
             <table>
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Nume</th>
                         <th>Categorie</th>
                         <th>Pret</th>
@@ -44,7 +43,6 @@ function AdminProductsPage() {
                 <tbody>
                     {products.map((p) => (
                         <tr key={p.id}>
-                            <td>{p.id}</td>
                             <td>{p.name}</td>
                             <td>{p.category?.name}</td>
                             <td>{p.price.toFixed(2)} lei</td>

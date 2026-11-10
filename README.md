@@ -41,6 +41,19 @@ Right-click on **`eMug.Server`** -> **`Manage User Secrets`** -> set the admin E
 }
 ```
 
+# Stripe (card payments)
+
+Card payments use Stripe Checkout in test mode. Get the test keys from the Stripe Dashboard (**Developers** -> **API keys**) and add them to User Secrets:
+
+```json
+"Stripe": {
+  "SecretKey": "sk_test_...",
+  "PublicKey": "pk_test_..."
+}
+```
+
+Test card: `4242 4242 4242 4242`, any future expiry date, any CVC.
+
 # If User Secrets is not initialized
 
 ```bash
@@ -48,6 +61,8 @@ dotnet user-secrets init
 dotnet user-secrets set "Jwt:Key" "YOUR-KEY-HERE"
 dotnet user-secrets set "Admin:Email" "YOUR-EMAIL-HERE"
 dotnet user-secrets set "Admin:Password" "YOUR-PASSWORD-HERE"
+dotnet user-secrets set "Stripe:SecretKey" "sk_test_..."
+dotnet user-secrets set "Stripe:PublicKey" "pk_test_..."
 dotnet user-secrets list
 ```
 
@@ -60,6 +75,7 @@ In the files *`eMug.postman_collection`* & *`eMug.reset-seed.postman_collection`
 - `Microsoft.EntityFrameworkCore.Tools`
 - `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
 - `Microsoft.AspNetCore.Authentication.JwtBearer`
+- `Stripe.net`
 
 # Frontend (React)
 To install the frontend dependencies, navigate to the React project directory (`emug.client`) and run:

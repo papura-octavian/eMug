@@ -20,6 +20,10 @@ namespace eMug.Server.Models
         public string PaymentMethod { get; set; } = string.Empty;
         public string? Notes { get; set; }
 
+        // plata cu cardul prin Stripe Checkout
+        public string? StripeSessionId { get; set; }
+        public DateTime? PaidAt { get; set; }
+
         // livrarea e copiata in comanda, ca sa nu se schimbe istoricul daca se modifica metoda
         public int? DeliveryMethodId { get; set; }
         public DeliveryMethod? DeliveryMethod { get; set; }
